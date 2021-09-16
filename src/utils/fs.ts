@@ -11,18 +11,18 @@ import {
 import fse from "fs-extra";
 import globLib from "glob";
 
-const statAsync = promisify(stat);
-const readdirAsync = promisify(readdir);
-const readFileAsync = promisify(readFile);
-const writeFileAsync = promisify(writeFile);
-const mkdirAsync = promisify(mkdir);
-const copyFileAsync = promisify(copyFile);
+export const statAsync = promisify(stat);
+export const readdirAsync = promisify(readdir);
+export const readFileAsync = promisify(readFile);
+export const writeFileAsync = promisify(writeFile);
+export const mkdirAsync = promisify(mkdir);
+export const copyFileAsync = promisify(copyFile);
 
 /**
  * 逐级创建文件夹
  * @param dirPath
  */
-async function mkdirpAsync(dirPath: string) {
+export async function mkdirpAsync(dirPath: string) {
 	return fse.mkdirp(dirPath);
 }
 
@@ -30,7 +30,7 @@ async function mkdirpAsync(dirPath: string) {
  * 将文件夹复制到目标文件夹
  * @return {Promise<void>}
  */
-async function copyDirAsync(source: string, dest: string) {
+export async function copyDirAsync(source: string, dest: string) {
 	if (existsSync(dest)) {
 		throw new Error(
 			`[error in copyDirAsync]: dest: [${dest}] dir is already exists`,
@@ -51,7 +51,7 @@ async function copyDirAsync(source: string, dest: string) {
 	return fse.copy(source, dest, { recursive: true });
 }
 
-async function glob(pattern: string, options: globLib.IOptions) {
+export async function glob(pattern: string, options: globLib.IOptions) {
 	return new Promise<string[]>((resolve, reject) => {
 		globLib.glob(pattern, options, (error, matches) => {
 			if (error) {
@@ -64,14 +64,3 @@ async function glob(pattern: string, options: globLib.IOptions) {
 }
 
 export { existsSync } from "fs";
-export {
-	statAsync,
-	readdirAsync,
-	readFileAsync,
-	writeFileAsync,
-	mkdirAsync,
-	copyFileAsync,
-	mkdirpAsync,
-	glob,
-	copyDirAsync,
-};

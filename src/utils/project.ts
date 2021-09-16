@@ -1,5 +1,3 @@
-"use strict";
-
 import { readdirAsync, existsSync } from "./fs";
 import { getProjectInfo, resolveBase } from "./path";
 import { prompt } from "inquirer";
@@ -38,7 +36,7 @@ async function travelModuleProject(callback: IterProjectCallback) {
 	await callback(projectInfo.relativePath, projectInfo.path);
 }
 
-async function travelUserSelectProjects(
+export async function travelUserSelectProjects(
 	callback: IterProjectCallback,
 ): Promise<void> {
 	const projectInfo = getProjectInfo();
@@ -49,7 +47,9 @@ async function travelUserSelectProjects(
 	}
 }
 
-async function travelAllProjects(callback: IterProjectCallback): Promise<void> {
+export async function travelAllProjects(
+	callback: IterProjectCallback,
+): Promise<void> {
 	const projectInfo = getProjectInfo();
 	if (projectInfo.type === "module") {
 		await travelModuleProject(callback);
@@ -63,5 +63,3 @@ async function travelAllProjects(callback: IterProjectCallback): Promise<void> {
 		}
 	}
 }
-
-export { travelUserSelectProjects, travelAllProjects };

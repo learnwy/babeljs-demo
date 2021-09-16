@@ -5,7 +5,7 @@ import { StringFactory } from "./string";
 import { dirname, resolve, sep } from "path";
 import { existsSync } from "fs";
 
-interface ProjectInfo {
+export interface ProjectInfo {
 	type: "module" | "integration";
 	path: string;
 	relativePath: string;
@@ -51,13 +51,13 @@ function findRootProject(curPath: string, depth = 0): ProjectInfo {
 	return findRootProject(parentPath, depth + 1);
 }
 
-const getProjectInfo = once(() => findRootProject(getRunDir()));
+export const getProjectInfo = once(() => findRootProject(getRunDir()));
 
 /**
  * 从根项目查找路径
  * @param {string[]} paths
  */
-function resolveBase(...paths: string[]) {
+export function resolveBase(...paths: string[]) {
 	return resolve(getProjectInfo().path, ...paths);
 }
 
@@ -66,7 +66,7 @@ function resolveBase(...paths: string[]) {
  * @param {string} paths
  * @return {string}
  */
-function resolveDist(...paths: string[]) {
+export function resolveDist(...paths: string[]) {
 	return resolveBase("hzero-front-util", ...paths);
 }
 
@@ -74,7 +74,7 @@ function resolveDist(...paths: string[]) {
  * 自身的路径 node_modules/hzero-front-util/bin
  * @param paths
  */
-function resolveUtilBasePath(...paths: string[]) {
+export function resolveUtilBasePath(...paths: string[]) {
 	return resolve(__dirname, "..", ...paths);
 }
 
@@ -82,14 +82,14 @@ function resolveUtilBasePath(...paths: string[]) {
  * 自身的所在的路径 node_modules/hzero-front-util
  * @param paths
  */
-function resolveUtilPath(...paths: string[]) {
+export function resolveUtilPath(...paths: string[]) {
 	return resolve(__dirname, "../../", ...paths);
 }
 
 let uniqId = 0;
 const uniqPathStringFc = new StringFactory(resolveUtilPath("tmp"));
 
-function requestDatePath() {
+export function requestDatePath() {
 	const d = new Date();
 	const year = d.getFullYear();
 	const month = `${d.getMonth() + 1}`.padStart(2, "0");
@@ -105,7 +105,7 @@ function requestDatePath() {
  * node_modules/hzero-front-cli/tmp/{id}-{Date("yyyy-MM-dd_HH-mm-ss")}/
  * @param {string} command - 执行的命令
  */
-async function requestUniqPath(command: string) {
+export async function requestUniqPath(command: string) {
 	uniqId += 1;
 	const dt = requestDatePath();
 	const uniqPath = uniqPathStringFc
@@ -120,21 +120,8 @@ async function requestUniqPath(command: string) {
  * @param {string} path
  * @return {string}
  */
-function getNoSlashPath(path: string) {
+export function getNoSlashPath(path: string) {
 	return path.startsWith(sep) ? path.substr(1) : path;
 }
 
 export { dirname, resolve, extname } from "path";
-
-export type { ProjectInfo };
-
-export {
-	getProjectInfo,
-	requestUniqPath,
-	resolveUtilPath,
-	resolveUtilBasePath,
-	resolveBase,
-	resolveDist,
-	getNoSlashPath,
-	requestDatePath,
-};

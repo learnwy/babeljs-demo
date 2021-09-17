@@ -124,4 +124,4 @@ export function getNoSlashPath(path: string) {
 	return path.startsWith(sep) ? path.substr(1) : path;
 }
 
-export { dirname, resolve, extname } from "path";
+export { dirname, resolve, extname, join } from "path";

@@ -1,0 +1,3 @@
+import { scanChinese } from ".";
+
+scanChinese();

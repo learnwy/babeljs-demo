@@ -1,7 +1,7 @@
 function main() {
-  console.error("info");
+	console.error("info");
 }
 
 main();
 
-export {}
+export {};

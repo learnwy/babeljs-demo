@@ -11,11 +11,11 @@ async function scanFile(file: string): Promise<void> {
 	const fileContent = (await readFileAsync(file)).toString();
 	const ast = parse(fileContent, {
 		presets: [
-			require.resolve("@babel/preset-typescript"),
-			require.resolve("@babel/preset-react"),
 			require.resolve("@babel/preset-env"),
+			require.resolve("@babel/preset-react"),
+			require.resolve("@babel/preset-typescript"),
 		],
-		filename: "tmp.ts",
+		filename: file,
 	});
 	traverseScanChinese(ast);
 }

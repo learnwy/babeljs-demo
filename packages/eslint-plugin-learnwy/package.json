@@ -1,6 +1,6 @@
 {
-  "name": "eslint-plugin-eslint-plugin",
-  "version": "0.0.0",
+  "name": "@learnwy/eslint-plugin",
+  "version": "0.0.0-beta-0",
   "description": "eslint plugin for learnwy",
   "keywords": [
     "eslint",
@@ -11,11 +11,16 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha tests --recursive"
+    "test": "mocha tests --recursive",
+    "test:t": "ts-node ./tests/rules/import-no-index.ts"
   },
   "devDependencies": {
+    "@learnwy/eslint-plugin": "^0.0.0-beta-0",
+    "@types/eslint": "^7.28.0",
     "@types/requireindex": "^1.2.0",
-    "eslint": "^7.1.0",
+    "@typescript-eslint/experimental-utils": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
     "eslint-plugin-eslint-plugin": "^3.2.0",
     "eslint-plugin-node": "^11.0.0",
     "mocha": "^9.0.0",
@@ -28,5 +33,12 @@
   "peerDependencies": {
     "eslint": ">=6"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^4"
+  },
+  "files": [
+    "lib",
+    "docs"
+  ]
 }

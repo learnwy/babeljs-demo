@@ -66,7 +66,7 @@ function replaceWithINTLNode(path: NodePath<t.StringLiteral>) {
 	}
 }
 function replaceWithINTLNodeJSXText(path: NodePath<t.JSXText>) {
-	path.replaceWith(toINTLAst(path.node.value));
+	path.replaceWith(t.jsxExpressionContainer(toINTLAst(path.node.value)));
 }
 function replaceWithINTLNodeTemplateElement(path: NodePath<t.TemplateLiteral>) {
 	// `${a}我${b}我${c}`

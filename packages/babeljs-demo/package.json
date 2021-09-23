@@ -7,9 +7,8 @@
     "scan": "./bin/scan.js"
   },
   "scripts": {
-    "check": "npm run check:type-babel; npm run check:type-eslint",
-    "check:type-babel": "cd ./packages/babeljs-demo && tsc --noEmit",
-    "check:type-eslint": "cd ./packages/eslint-plugin-learnwy && tsc --noEmit",
+    "check": "npm run check:type",
+    "check:type": "tsc --noEmit",
     "commitlint": "commitlint",
     "commit": "npm run cz",
     "cz": "cz",

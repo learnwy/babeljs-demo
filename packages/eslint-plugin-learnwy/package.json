@@ -1,0 +1,32 @@
+{
+  "name": "eslint-plugin-eslint-plugin",
+  "version": "0.0.0",
+  "description": "eslint plugin for learnwy",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "author": "WangYang",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "mocha tests --recursive"
+  },
+  "devDependencies": {
+    "@types/requireindex": "^1.2.0",
+    "eslint": "^7.1.0",
+    "eslint-plugin-eslint-plugin": "^3.2.0",
+    "eslint-plugin-node": "^11.0.0",
+    "mocha": "^9.0.0",
+    "requireindex": "^1.2.0",
+    "typescript": "^4.4.3"
+  },
+  "engines": {
+    "node": "12.x || 14.x || >= 16"
+  },
+  "peerDependencies": {
+    "eslint": ">=6"
+  },
+  "license": "ISC"
+}

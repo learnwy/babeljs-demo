@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-undef
 module.exports = {
+	root: true,
 	env: {
 		es2021: true,
 	},
@@ -9,11 +9,18 @@ module.exports = {
 		ecmaVersion: 12,
 		sourceType: "module",
 	},
-	plugins: ["@learnwy"],
+	plugins: ["@learnwy/eslint-plugin"],
 	rules: {
 		indent: ["error", "tab"],
 		"linebreak-style": ["error", "unix"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"],
+		"@learnwy/import-no-index": [
+			"error",
+			{
+				dir: "tests/foo",
+				index: "tests/foo/index.ts",
+			},
+		],
 	},
 };

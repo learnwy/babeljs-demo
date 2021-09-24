@@ -5,15 +5,14 @@
 "use strict";
 
 //------------------------------------------------------------------------------
-// Requirements
-//------------------------------------------------------------------------------
-
-import requireIndex from "requireindex";
-
-//------------------------------------------------------------------------------
 // Plugin Definition
 //------------------------------------------------------------------------------
 
 // import all rules in lib/rules
 
-export const rules = requireIndex(__dirname + "/rules");
+import { TSESLint } from "@typescript-eslint/experimental-utils";
+import { importNoIndex } from "./rules/import-no-index";
+
+export const rules: Record<string, TSESLint.RuleModule<any, any>> = {
+	"import-no-index": importNoIndex,
+};

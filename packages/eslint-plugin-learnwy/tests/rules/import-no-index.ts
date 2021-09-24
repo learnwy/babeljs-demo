@@ -1,10 +1,10 @@
 import { TSESLint } from "@typescript-eslint/experimental-utils";
-import importNoIndexRule from "../../rules/import-no-index";
+import { importNoIndex } from "../../rules/import-no-index";
 
 const ruleTester = new TSESLint.RuleTester({
-	parser: require.resolve('@typescript-eslint/parser'),
+	parser: require.resolve("@typescript-eslint/parser"),
 });
-ruleTester.run("import-no-index", importNoIndexRule, {
+ruleTester.run("import-no-index", importNoIndex, {
 	valid: [
 		{
 			code: `
@@ -15,15 +15,14 @@ ruleTester.run("import-no-index", importNoIndexRule, {
 			import type {c} from 'src/foo/foo';
 			import type { CallExpression } from '@babel/types';
 			`,
-			options: [{ dir: "src/foo", index: 'src/foo/index.ts' }],
+			options: [{ dir: "src/foo", index: "src/foo/index.ts" }],
 			filename: "src/foo/index.ts",
 		},
 		{
 			code: "export const a = 1; export const b = 2;",
-			options: [{ dir: "src/foo", index: 'src/foo/index.ts' }],
+			options: [{ dir: "src/foo", index: "src/foo/index.ts" }],
 			filename: "src/foo/foo.ts",
 		},
 	],
-	invalid: [
-	],
+	invalid: [],
 });

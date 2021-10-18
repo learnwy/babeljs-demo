@@ -1,6 +1,6 @@
 import { TSESLint } from "@typescript-eslint/experimental-utils";
+import eslintModuleUtilsResolve from "eslint-module-utils/resolve";
 import * as Path from "path";
-import * as Fs from "fs";
 
 interface ImportNoIndexOptionItem {
 	dir: string;
@@ -12,7 +12,7 @@ type ImportNoIndexOptions = ImportNoIndexOptionItem[];
 
 export const importNoIndex: TSESLint.RuleModule<
 	"outImportNoIndex" | "innerImportIndex" | "indexNotExists",
-	any
+	ImportNoIndexOptions
 > = {
 	meta: {
 		type: "problem",
@@ -54,13 +54,16 @@ export const importNoIndex: TSESLint.RuleModule<
 		// relative path
 		const sourceCodePath = context.getFilename();
 		if (sourceCodePath === "<text>") return {}; // can't check a non-file
-		const options: ImportNoIndexOptions = (
-			context.options.slice(0) as ImportNoIndexOptions
-		)
+		// 先将 options 处理成绝对路径
+		const options = (context.options.slice(0) as ImportNoIndexOptions)
 			.sort((a, b) => (a.dir > b.dir ? 1 : -1))
 			.map((option) => {
 				if (option.index) {
-					if (!Fs.existsSync(option.index)) {
+					const resolveIndexPath = eslintModuleUtilsResolve(
+						option.index,
+						context,
+					);
+					if (!resolveIndexPath) {
 						context.report({
 							loc: {
 								line: 0,
@@ -72,15 +75,20 @@ export const importNoIndex: TSESLint.RuleModule<
 								index: option.index,
 							},
 						});
+						return undefined;
 					}
-					return option;
+					return {
+						...option,
+						index: resolveIndexPath,
+					};
 				} else {
+					// 查找默认的 index 文件
 					const indexPath = [
 						"index.ts",
 						"index.tsx",
 						"index.js",
 						"index.jsx",
-					].find((i) => Fs.existsSync(Path.join(option.dir, i)));
+					].find((i) => eslintModuleUtilsResolve(i, context));
 					if (!indexPath) {
 						context.report({
 							loc: {
@@ -99,9 +107,9 @@ export const importNoIndex: TSESLint.RuleModule<
 						index: indexPath || "",
 					};
 				}
-			});
-
-		// 需要收集 对应 index 目录的所有 import 和 export
+			})
+			// 失效的配置会报错并且过滤掉
+			.filter((t) => t !== undefined) as Required<ImportNoIndexOptionItem>[];
 
 		return {
 			ImportDeclaration(importDeclaration) {
@@ -110,14 +118,24 @@ export const importNoIndex: TSESLint.RuleModule<
 					return;
 				}
 				if (typeof importDeclaration.source.value === "string") {
-					const importPath = importDeclaration.source.value;
-					// check is in some
-					// TODO: we first assume all is absolute path
+					const importPath = eslintModuleUtilsResolve(
+						importDeclaration.source.value,
+						context,
+					);
+					if (!importPath) {
+						// import 文件不存在, 交给其他 lint 报错
+						return;
+					}
 
 					// import 命中 dir
-					const currentOption = options.find(
-						(option) => importPath.indexOf(option.index!) === 0,
-					);
+					const currentOption = options.find((option) => {
+						const index = importPath.indexOf(option.index);
+						return (
+							index === 0 &&
+							importPath.startsWith(option.index) &&
+							importPath[index] === Path.sep
+						);
+					});
 					if (currentOption) {
 						const isInnerFile = sourceCodePath.indexOf(currentOption.dir) === 0;
 						if (isInnerFile) {

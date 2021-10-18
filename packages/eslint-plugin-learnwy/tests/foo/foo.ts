@@ -1,5 +1,5 @@
-import { c } from "tests/foo/index";
-export const a = 1;
-export const b = 2;
+import { bar } from ".";
 
-console.info(c);
+export const foo = "foo";
+
+console.info(bar);

@@ -1,6 +1,6 @@
 {
   "name": "@learnwy/eslint-plugin",
-  "version": "0.0.0-beta-3",
+  "version": "0.0.0-beta-7",
   "description": "eslint plugin for learnwy",
   "keywords": [
     "eslint",
@@ -10,19 +10,20 @@
   "author": "WangYang",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint -c ./.eslintrc.js --ext .ts,.tsx ./",
     "build": "tsc",
     "test": "mocha tests --recursive",
-    "test:t": "ts-node ./tests/rules/import-no-index.ts"
+    "test:t": "tsc && node ./lib/tests/rules/import-no-index.js"
   },
   "devDependencies": {
-    "@learnwy/eslint-plugin": "0.0.0-beta-3",
+    "@learnwy/eslint-plugin": "0.0.0-beta-7",
     "@types/eslint": "^7.28.0",
     "@types/requireindex": "^1.2.0",
     "@typescript-eslint/experimental-utils": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "eslint": "^7.32.0",
     "eslint-plugin-eslint-plugin": "^3.2.0",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-node": "^11.0.0",
     "mocha": "^9.0.0",
     "requireindex": "^1.2.0",
@@ -37,6 +38,7 @@
   "license": "ISC",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4",
+    "eslint-module-utils": "^2.7.1",
     "tslib": "^2.3.1"
   },
   "files": [

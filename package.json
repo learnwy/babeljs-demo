@@ -61,6 +61,7 @@
     "@typescript-eslint/parser": "^4.31.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.2",
     "husky": "^7.0.0",
     "hzero-front-util": "^0.1.37",
     "inquirer": "^8.1.2",

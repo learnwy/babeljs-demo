@@ -13,6 +13,6 @@
 import { TSESLint } from "@typescript-eslint/experimental-utils";
 import { importNoIndex } from "./rules/import-no-index";
 
-export const rules: Record<string, TSESLint.RuleModule<any, any>> = {
+export const rules: Record<string, TSESLint.RuleModule<string, unknown[]>> = {
 	"import-no-index": importNoIndex,
 };

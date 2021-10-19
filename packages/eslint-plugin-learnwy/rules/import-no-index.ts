@@ -1,6 +1,7 @@
 import { TSESLint } from "@typescript-eslint/experimental-utils";
 import eslintModuleUtilsResolve from "eslint-module-utils/resolve";
 import * as Path from "path";
+import * as Fs from "fs";
 
 interface ImportNoIndexOptionItem {
 	dir: string;
@@ -92,7 +93,13 @@ export const importNoIndex: TSESLint.RuleModule<
 						"index.tsx",
 						"index.js",
 						"index.jsx",
-					].find((i) => eslintModuleUtilsResolve(i, context));
+					].find((i) => {
+						const resolveIndex = eslintModuleUtilsResolve(
+							Path.resolve(option.dir, i),
+							context,
+						);
+						return resolveIndex && Fs.existsSync(resolveIndex);
+					});
 					if (!indexPath) {
 						context.report({
 							loc: {
@@ -105,17 +112,17 @@ export const importNoIndex: TSESLint.RuleModule<
 								index: "t|jsx?",
 							},
 						});
+						return undefined;
 					}
 					return {
 						innerNoImportIndex: true,
 						...option,
-						index: indexPath || "",
+						index: Path.resolve(option.dir, indexPath),
 					};
 				}
 			})
 			// filter invalid option
 			.filter((t): t is NormalOptionItem => t !== undefined);
-
 		return {
 			ImportDeclaration(importDeclaration) {
 				if (importDeclaration.importKind === "type") {

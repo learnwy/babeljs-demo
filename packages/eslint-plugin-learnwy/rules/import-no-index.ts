@@ -14,7 +14,7 @@ type NormalOptionItem = Required<ImportNoIndexOptionItem>;
 
 export const importNoIndex: TSESLint.RuleModule<
 	"outImportNoIndex" | "innerImportIndex" | "indexNotExists",
-	ImportNoIndexOptions
+	[ImportNoIndexOptions]
 > = {
 	meta: {
 		type: "problem",
@@ -26,12 +26,14 @@ export const importNoIndex: TSESLint.RuleModule<
 		},
 		schema: [
 			{
+				type: "array",
 				items: [
 					{
 						type: "object",
 						properties: {
 							dir: {
 								type: "string",
+								required: true,
 							},
 							index: {
 								type: "string",
@@ -57,9 +59,7 @@ export const importNoIndex: TSESLint.RuleModule<
 		const sourceCodePath = context.getFilename();
 		if (sourceCodePath === "<text>") return {}; // can't check a non-file
 		// normal options
-		const options: NormalOptionItem[] = (
-			context.options.slice(0) as ImportNoIndexOptions
-		)
+		const options: NormalOptionItem[] = context.options[0]
 			.sort((a, b) => (a.dir > b.dir ? 1 : -1))
 			.map((option): NormalOptionItem | undefined => {
 				if (option.index) {

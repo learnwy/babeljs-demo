@@ -15,12 +15,12 @@ ruleTester.run("import-no-index", importNoIndex, {
 			import type {c} from './foo';
 			import type { CallExpression } from '@babel/types';
 			`,
-			options: [{ dir: "@/foo", index: "@/foo/index.ts" }],
+			options: [[{ dir: "@/foo", index: "@/foo/index.ts" }]],
 			filename: "src/foo/index.ts",
 		},
 		{
 			code: "export const a = 1; export const b = 2;",
-			options: [{ dir: "@/foo", index: "@/foo/index.ts" }],
+			options: [[{ dir: "@/foo", index: "@/foo/index.ts" }]],
 			filename: "src/foo/foo.ts",
 		},
 	],

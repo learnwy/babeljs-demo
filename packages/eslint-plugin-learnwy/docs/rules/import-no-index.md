@@ -26,12 +26,11 @@ Examples of **correct** code for this rule:
 ```json
 {
   "rules": {
-    "no-unused-vars": [
+    "@learnwy/import-no-index": [
       "error",
       [
         {
-          "dir": "",
-          "index": "",
+          "dir": "@/components/input",
           "innerNoImportIndex": true
         }
       ]

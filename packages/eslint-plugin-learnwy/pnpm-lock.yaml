@@ -1,7 +1,6 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@learnwy/eslint-plugin': 0.0.0-beta-7
   '@types/eslint': ^7.28.0
   '@types/requireindex': ^1.2.0
   '@typescript-eslint/eslint-plugin': ^4
@@ -23,7 +22,6 @@ dependencies:
   tslib: 2.3.1
 
 devDependencies:
-  '@learnwy/eslint-plugin': 0.0.0-beta-7_3815fab247b4312be6d1f55eb1f81298
   '@types/eslint': 7.28.0
   '@types/requireindex': 1.2.0
   '@typescript-eslint/experimental-utils': 4.31.2_eslint@7.32.0+typescript@4.4.3
@@ -90,22 +88,6 @@ packages:
     resolution: {integrity: sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==}
     dev: true
 
-  /@learnwy/eslint-plugin/0.0.0-beta-7_3815fab247b4312be6d1f55eb1f81298:
-    resolution: {integrity: sha512-qdhp4A3/Fzj7UKPYmXUePQ2Tvdfq8+Ir5G2oDwhpskJ9ws0VQWSOZwfuf8vIemA+lxUV752aZ/uISSmsbz5IOQ==}
-    engines: {node: 12.x || 14.x || >= 16}
-    peerDependencies:
-      eslint: '>=6'
-    dependencies:
-      '@typescript-eslint/eslint-plugin': 4.31.2_3815fab247b4312be6d1f55eb1f81298
-      eslint: 7.32.0
-      eslint-module-utils: 2.7.1
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - '@typescript-eslint/parser'
-      - supports-color
-      - typescript
-    dev: true
-
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -169,6 +151,7 @@ packages:
       typescript: 4.4.3
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@typescript-eslint/experimental-utils/4.31.2_eslint@7.32.0+typescript@4.4.3:
     resolution: {integrity: sha512-3tm2T4nyA970yQ6R3JZV9l0yilE2FedYg8dcXrTar34zC9r6JB7WyBQbpIVongKPlhEMjhQ01qkwrzWy38Bk1Q==}
@@ -1704,6 +1687,7 @@ packages:
 
   /tslib/2.3.1:
     resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
+    dev: false
 
   /tsutils/3.21.0_typescript@4.4.3:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

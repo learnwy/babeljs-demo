@@ -9,6 +9,7 @@ interface ImportNoIndexOptionItem {
 }
 
 type ImportNoIndexOptions = ImportNoIndexOptionItem[];
+type NormalOptionItem = Required<ImportNoIndexOptionItem>;
 
 export const importNoIndex: TSESLint.RuleModule<
 	"outImportNoIndex" | "innerImportIndex" | "indexNotExists",
@@ -45,8 +46,8 @@ export const importNoIndex: TSESLint.RuleModule<
 			},
 		],
 		messages: {
-			outImportNoIndex: "'{{file}}' import {{dir}}.",
-			innerImportIndex: "'{{file}}' import {{dir}}.",
+			outImportNoIndex: "out {{file}} import {{import}}.",
+			innerImportIndex: "in {{file}} import {{index}}.",
 			indexNotExists: "'{{dir}}' not exists file {{index}}.",
 		},
 	},
@@ -54,10 +55,12 @@ export const importNoIndex: TSESLint.RuleModule<
 		// relative path
 		const sourceCodePath = context.getFilename();
 		if (sourceCodePath === "<text>") return {}; // can't check a non-file
-		// 先将 options 处理成绝对路径
-		const options = (context.options.slice(0) as ImportNoIndexOptions)
+		// normal options
+		const options: NormalOptionItem[] = (
+			context.options.slice(0) as ImportNoIndexOptions
+		)
 			.sort((a, b) => (a.dir > b.dir ? 1 : -1))
-			.map((option) => {
+			.map((option): NormalOptionItem | undefined => {
 				if (option.index) {
 					const resolveIndexPath = eslintModuleUtilsResolve(
 						option.index,
@@ -78,6 +81,7 @@ export const importNoIndex: TSESLint.RuleModule<
 						return undefined;
 					}
 					return {
+						innerNoImportIndex: true,
 						...option,
 						index: resolveIndexPath,
 					};
@@ -98,18 +102,19 @@ export const importNoIndex: TSESLint.RuleModule<
 							messageId: "indexNotExists",
 							data: {
 								dir: option.dir,
-								index: "",
+								index: "t|jsx?",
 							},
 						});
 					}
 					return {
+						innerNoImportIndex: true,
 						...option,
 						index: indexPath || "",
 					};
 				}
 			})
-			// 失效的配置会报错并且过滤掉
-			.filter((t) => t !== undefined) as Required<ImportNoIndexOptionItem>[];
+			// filter invalid option
+			.filter((t): t is NormalOptionItem => t !== undefined);
 
 		return {
 			ImportDeclaration(importDeclaration) {
@@ -127,42 +132,48 @@ export const importNoIndex: TSESLint.RuleModule<
 						return;
 					}
 
-					// import 命中 dir
-					const currentOption = options.find((option) => {
-						const index = importPath.indexOf(option.index);
-						return (
-							index === 0 &&
-							importPath.startsWith(option.index) &&
-							importPath[index] === Path.sep
-						);
-					});
-					if (currentOption) {
-						const isInnerFile = sourceCodePath.indexOf(currentOption.dir) === 0;
-						if (isInnerFile) {
-							// 1. 检查内部文件是否 import 了 index 文件
-							if (importPath === currentOption.index) {
+					// if out import no index file
+
+					// if in import index file
+
+					// find option that apply
+					for (const option of options) {
+						if (option.index === importPath) {
+							// check source file is in dir import index
+							if (
+								sourceCodePath.startsWith(option.dir) &&
+								sourceCodePath[option.dir.length] === Path.sep
+							) {
 								context.report({
 									node: importDeclaration,
 									messageId: "innerImportIndex",
 									loc: importDeclaration.loc,
 									data: {
 										file: sourceCodePath,
-										dir: currentOption.dir,
+										index: option.index,
 									},
 								});
+								break;
 							}
-						} else {
-							// 2. 检查外部文件是否 import 了 非index 文件
-							if (importPath !== currentOption.index) {
+						} else if (
+							importPath.startsWith(option.dir) &&
+							importPath !== option.index
+						) {
+							// check source file out dir that import no index
+							if (
+								!sourceCodePath.startsWith(option.dir) ||
+								sourceCodePath[option.dir.length] !== Path.sep
+							) {
 								context.report({
 									node: importDeclaration,
 									messageId: "outImportNoIndex",
 									loc: importDeclaration.loc,
 									data: {
 										file: sourceCodePath,
-										dir: currentOption.dir,
+										import: importPath,
 									},
 								});
+								break;
 							}
 						}
 					}

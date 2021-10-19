@@ -1,6 +1,6 @@
 {
   "name": "@learnwy/eslint-plugin",
-  "version": "0.0.0-beta-7",
+  "version": "0.0.0-beta-9",
   "description": "eslint plugin for learnwy",
   "keywords": [
     "eslint",
@@ -16,7 +16,6 @@
     "test:t": "tsc && node ./lib/tests/rules/import-no-index.js"
   },
   "devDependencies": {
-    "@learnwy/eslint-plugin": "0.0.0-beta-7",
     "@types/eslint": "^7.28.0",
     "@types/requireindex": "^1.2.0",
     "@typescript-eslint/experimental-utils": "^4.31.2",

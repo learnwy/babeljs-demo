@@ -6,10 +6,10 @@
 
 这个规则目标是限制`import`文件, 文件夹(模块)外部只能从入口(index)文件`import`内容, 文件夹(模块)内部不能`import`入口(index)文件
 
-目标 utils 存在 foo.js/fun.js/index.js 文件
+目标 utils 存在 foo.js, bar.js, index.js 文件
 
 * 非 utils 文件夹 只能从 utils/index.js 文件`import`
-* foo.js/fun.js 只能各自引入各自的内容
+* foo.js, bar.js 只能各自引入各自的内容
 
 ```js
 ```

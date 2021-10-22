@@ -61,8 +61,9 @@ export const importNoIndex: TSESLint.RuleModule<"outImportNoIndex" | "innerImpor
 			const options: NormalOptionItem[] = context.options[0]
 				.sort((a, b) => (a.dir > b.dir ? 1 : -1))
 				.map((option): NormalOptionItem | undefined => {
+					const absoluteDir = Path.resolve(cwd, option.dir);
 					if (option.index) {
-						const resolveIndexPath = Path.resolve(cwd, option.dir, option.index);
+						const resolveIndexPath = Path.resolve(absoluteDir, option.index);
 						if (!Fs.existsSync(resolveIndexPath)) {
 							context.report({
 								loc: {
@@ -80,6 +81,7 @@ export const importNoIndex: TSESLint.RuleModule<"outImportNoIndex" | "innerImpor
 						return {
 							innerNoImportIndex: true,
 							...option,
+							dir: absoluteDir,
 							index: resolveIndexPath,
 						};
 					} else {
@@ -111,6 +113,7 @@ export const importNoIndex: TSESLint.RuleModule<"outImportNoIndex" | "innerImpor
 							innerNoImportIndex: true,
 							...option,
 							index: Path.resolve(cwd, option.dir, indexPath),
+							dir: absoluteDir,
 						};
 					}
 				})

@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@learnwy/eslint-plugin': ^0.1.2-beta-0
+  '@learnwy/eslint-plugin': ^0.1.2-beta-1
   '@types/eslint': ^7.28.1
   '@types/requireindex': ^1.2.0
   '@typescript-eslint/eslint-plugin': ^4.33.0
@@ -23,7 +23,7 @@ dependencies:
   tslib: 2.3.1
 
 devDependencies:
-  '@learnwy/eslint-plugin': 0.1.2-beta-0_cc617358c89d3f38c52462f6d809db4c
+  '@learnwy/eslint-plugin': 0.1.2-beta-1_cc617358c89d3f38c52462f6d809db4c
   '@types/eslint': 7.28.1
   '@types/requireindex': 1.2.0
   '@typescript-eslint/experimental-utils': 4.33.0_eslint@7.32.0+typescript@4.4.4
@@ -90,8 +90,8 @@ packages:
     resolution: {integrity: sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==}
     dev: true
 
-  /@learnwy/eslint-plugin/0.1.2-beta-0_cc617358c89d3f38c52462f6d809db4c:
-    resolution: {integrity: sha512-H87oay77GyfgTkHQlb71UtJhytUslmaPNFNY5kGSECiCZHipD8V6lywCnhvGCDD4+T0dwJ4RHWV5Lw/uULWvzA==}
+  /@learnwy/eslint-plugin/0.1.2-beta-1_cc617358c89d3f38c52462f6d809db4c:
+    resolution: {integrity: sha512-UZT4teT6A/ePZVCnHZ5OkRBNfFUjnQzGaZD5MlhPFmSISS8+Osb03jBIti0grF9GlqSWkvJD1/9D+oJy04P24Q==}
     engines: {node: 12.x || 14.x || >= 16}
     peerDependencies:
       eslint: '>=6'

@@ -1,6 +1,6 @@
 {
   "name": "@learnwy/eslint-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2-beta-0",
   "description": "eslint plugin for learnwy",
   "keywords": [
     "eslint",
@@ -13,9 +13,11 @@
     "lint": "eslint -c ./.eslintrc.js --ext .ts,.tsx ./",
     "build": "tsc",
     "test": "mocha tests --recursive",
+    "test:tt": "npx ts-node ./index.ts",
     "test:t": "tsc && node ./lib/tests/rules/import-no-index.js"
   },
   "devDependencies": {
+    "@learnwy/eslint-plugin": "^0.1.1",
     "@types/eslint": "^7.28.1",
     "@types/requireindex": "^1.2.0",
     "@typescript-eslint/experimental-utils": "^4.33.0",

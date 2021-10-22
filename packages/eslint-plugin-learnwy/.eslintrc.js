@@ -20,7 +20,7 @@ module.exports = {
 		ecmaVersion: 12,
 		sourceType: "module",
 	},
-	plugins: ["@learnwy/eslint-plugin", "import"],
+	plugins: ["@learnwy", "import"],
 	rules: {
 		indent: ["error", "tab"],
 		"linebreak-style": ["error", "unix"],
@@ -28,12 +28,12 @@ module.exports = {
 		semi: ["error", "always"],
 		"@learnwy/import-no-index": [
 			"error",
-			{
-				// eslint-disable-next-line no-undef
-				dir: __dirname + "/tests/foo",
-				// eslint-disable-next-line no-undef
-				index: __dirname + "/tests/foo/index.ts",
-			},
+			[
+				{
+					dir: "tests/foo",
+					index: "index.ts",
+				},
+			],
 		],
 	},
 };

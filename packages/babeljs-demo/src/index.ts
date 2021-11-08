@@ -3,5 +3,3 @@ function main() {
 }
 
 main();
-
-export {};

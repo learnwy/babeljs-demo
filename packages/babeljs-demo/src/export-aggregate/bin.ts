@@ -1,3 +1,2 @@
 import { exportAggregate } from ".";
-
 exportAggregate();

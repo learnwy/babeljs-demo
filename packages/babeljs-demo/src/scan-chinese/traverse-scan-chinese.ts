@@ -2,11 +2,11 @@ import { NodePath, ParseResult } from "@babel/core";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 import traverse from "@babel/traverse";
-
 const str = "12345";
 const str2 = "hello";
 const str3 = "你好";
 console.debug(str, str2, str3);
+
 function hasChinese(str: string): boolean {
 	return /[\u4E00-\u9FFF]+/g.test(str);
 }
@@ -29,6 +29,7 @@ function needReplace(path: NodePath<any>): boolean {
 	// intl.get('xxx').d('xxx');
 	// d('chinese')
 	const { parent } = path;
+
 	if (t.isCallExpression(parent)) {
 		// .d
 		if (
@@ -38,6 +39,7 @@ function needReplace(path: NodePath<any>): boolean {
 		) {
 			// intl.get('xxx')
 			const object = parent.callee.object;
+
 			if (
 				t.isCallExpression(object) &&
 				t.isMemberExpression(object.callee) &&
@@ -51,23 +53,26 @@ function needReplace(path: NodePath<any>): boolean {
 			}
 		}
 	}
+
 	return true;
 }
 
 function replaceWithINTLNode(path: NodePath<t.StringLiteral>) {
 	if (!needReplace(path)) {
 		return;
-	}
-	// 检查是否是 JSXAttribute
+	} // 检查是否是 JSXAttribute
+
 	if (t.isJSXAttribute(path.parent)) {
 		path.replaceWith(t.jsxExpressionContainer(toINTLAst(path.node.value)));
 	} else {
 		path.replaceWith(toINTLAst(path.node.value));
 	}
 }
+
 function replaceWithINTLNodeJSXText(path: NodePath<t.JSXText>) {
 	path.replaceWith(t.jsxExpressionContainer(toINTLAst(path.node.value)));
 }
+
 function replaceWithINTLNodeTemplateElement(path: NodePath<t.TemplateLiteral>) {
 	// `${a}我${b}我${c}`
 	// ['', '我', '我', '',]
@@ -83,25 +88,18 @@ function replaceWithINTLNodeTemplateElement(path: NodePath<t.TemplateLiteral>) {
 			newQuasi.push({
 				...quasi,
 				tail: false,
-				value: {
-					...quasi.value,
-					raw: "",
-					cooked: "",
-				},
+				value: { ...quasi.value, raw: "", cooked: "" },
 			});
 			newExpressions.push(toINTLAst(quasi.value.raw));
 			newQuasi.push({
 				...quasi,
 				tail: false,
-				value: {
-					...quasi.value,
-					raw: "",
-					cooked: "",
-				},
+				value: { ...quasi.value, raw: "", cooked: "" },
 			});
 		} else {
 			newQuasi.push(quasi);
 		}
+
 		if (path.node.expressions[index]) {
 			newExpressions.push(path.node.expressions[index] as t.Expression);
 		}
@@ -113,26 +111,29 @@ function replaceWithINTLNodeTemplateElement(path: NodePath<t.TemplateLiteral>) {
 	});
 }
 
-export function traverseScanChinese(ast: ParseResult | null) {
+function traverseScanChinese(ast: ParseResult | null) {
 	if (!ast) {
 		throw new Error("not parse ok");
 	}
+
 	let hasChinese = false;
 	traverse(ast, {
 		StringLiteral(path: NodePath<t.StringLiteral>) {
 			if (/[\u4E00-\u9FFF]+/g.test(path.node.value)) {
-				hasChinese = true;
-				// 开始替换成标准的国际化字符串
+				hasChinese = true; // 开始替换成标准的国际化字符串
+
 				replaceWithINTLNode(path);
 			}
 		},
+
 		JSXText(path: NodePath<t.JSXText>) {
 			if (/[\u4E00-\u9FFF]+/g.test(path.node.value)) {
-				hasChinese = true;
-				// 开始替换成标准的国际化字符串
+				hasChinese = true; // 开始替换成标准的国际化字符串
+
 				replaceWithINTLNodeJSXText(path);
 			}
 		},
+
 		TemplateLiteral(path: NodePath<t.TemplateLiteral>) {
 			if (
 				path.node.quasis.some((quasi) =>
@@ -144,7 +145,10 @@ export function traverseScanChinese(ast: ParseResult | null) {
 			}
 		},
 	});
+
 	if (hasChinese) {
 		console.info(generate(ast).code);
 	}
 }
+
+export { traverseScanChinese };

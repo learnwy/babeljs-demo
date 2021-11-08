@@ -1,29 +1,37 @@
-export enum ErrorType {
+enum ErrorType {
 	Internal,
 	Runtime,
 	IllegalArg,
 }
 
-export class CommonError extends Error {
+class CommonError extends Error {
 	constructor(message: string, public readonly errorType = ErrorType.Internal) {
 		super(message);
 	}
 }
 
-export class InternalError extends CommonError {
+class InternalError extends CommonError {
 	constructor(message: string) {
 		super(message, ErrorType.Internal);
 	}
 }
 
-export class IllegalArgsError extends CommonError {
+class IllegalArgsError extends CommonError {
 	constructor(message: string) {
 		super(message, ErrorType.IllegalArg);
 	}
 }
 
-export class RunTimeError extends CommonError {
+class RunTimeError extends CommonError {
 	constructor(message: string) {
 		super(message, ErrorType.Runtime);
 	}
 }
+
+export {
+	ErrorType,
+	CommonError,
+	InternalError,
+	IllegalArgsError,
+	RunTimeError,
+};

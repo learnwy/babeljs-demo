@@ -14,9 +14,11 @@ function pickVariableDeclaration(
 
 function pickFromMayHasId(node: unknown) {
 	const mayBeId = (node as any).id;
+
 	if (t.isIdentifier(mayBeId)) {
 		return [mayBeId.name];
 	}
+
 	throw new Error("node not contains id prop");
 }
 
@@ -26,18 +28,21 @@ function pickDeclareName(declarationNode: t.Declaration): string[] {
 	} catch {
 		// do nothing
 	}
+
 	if (t.isVariableDeclaration(declarationNode)) {
 		return pickVariableDeclaration(declarationNode);
 	}
+
 	const error = new Error("不支持的节点类型");
 	(error as any).__declarationNode = declarationNode;
 	throw error;
 }
 
-export function traverseExportAggregate(ast: ParseResult | null, file: string) {
+function traverseExportAggregate(ast: ParseResult | null, file: string) {
 	if (!ast) {
 		throw new Error("not parse ok");
 	}
+
 	const exportSpecifiers: t.ExportSpecifier[] = [];
 	const exportIds: string[] = [];
 	traverse(ast, {
@@ -46,12 +51,13 @@ export function traverseExportAggregate(ast: ParseResult | null, file: string) {
 				// 不替换从新 export
 				return;
 			}
+
 			if (path.node.specifiers) {
 				// 归并在一起
 				exportSpecifiers.push(...(path.node.specifiers as t.ExportSpecifier[]));
 				path.node.specifiers = [];
-			}
-			// 搜集并替换
+			} // 搜集并替换
+
 			if (path.node.declaration) {
 				exportIds.push(...pickDeclareName(path.node.declaration));
 				path.replaceWith(path.node.declaration);
@@ -59,6 +65,7 @@ export function traverseExportAggregate(ast: ParseResult | null, file: string) {
 				path.remove();
 			}
 		},
+
 		Program: {
 			exit(path) {
 				const exports = t.exportNamedDeclaration(null, [...exportSpecifiers]);
@@ -67,6 +74,7 @@ export function traverseExportAggregate(ast: ParseResult | null, file: string) {
 						t.exportSpecifier(t.identifier(id), t.identifier(id)),
 					);
 				});
+
 				if (exports.specifiers.length) {
 					path.node.body.push(exports);
 				}
@@ -75,3 +83,5 @@ export function traverseExportAggregate(ast: ParseResult | null, file: string) {
 	});
 	fs.writeFileSync(file, generate(ast).code);
 }
+
+export { traverseExportAggregate };

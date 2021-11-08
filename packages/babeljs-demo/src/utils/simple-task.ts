@@ -6,7 +6,7 @@ function delayS(seconds: number): Promise<void> {
 
 type Task = () => Promise<void>;
 
-export class SimpleTask {
+class SimpleTask {
 	private tasks: Task[] = [];
 
 	constructor(private readonly limit: number = 3) {}
@@ -14,17 +14,20 @@ export class SimpleTask {
 	addAll(actions: Task[]) {
 		this.tasks.push(...actions);
 	}
+
 	add(action: Task) {
 		this.tasks.push(action);
 	}
 
 	private async runInner(tasks: Task[]) {
 		let runCount = 0;
+
 		while (tasks.length) {
 			if (runCount >= this.limit) {
 				await delayS(200);
 				continue;
 			}
+
 			if (runCount < this.limit) {
 				runCount++;
 				const task = tasks.pop()!;
@@ -44,3 +47,5 @@ export class SimpleTask {
 		await this.runInner(this.tasks);
 	}
 }
+
+export { SimpleTask };

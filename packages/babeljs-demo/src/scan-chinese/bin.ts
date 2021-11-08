@@ -1,3 +1,2 @@
 import { scanChinese } from ".";
-
 scanChinese();

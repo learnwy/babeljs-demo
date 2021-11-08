@@ -1,7 +1,6 @@
 import { readdirAsync, existsSync } from "./fs";
 import { getProjectInfo, resolveBase } from "./path";
 import { prompt } from "inquirer";
-
 type IterProjectCallback = (
 	projectName: string,
 	absolutePath: string,
@@ -25,8 +24,10 @@ async function travelUserSelectProjectsInner(callback: IterProjectCallback) {
 				})),
 		},
 	]);
+
 	for (let index = 0; index < selectProjectNames.length; index += 1) {
 		const projectName = selectProjectNames[index]; // eslint-disable-next-line no-await-in-loop
+
 		await callback(projectName, resolveBase("packages", projectName));
 	}
 }
@@ -36,10 +37,11 @@ async function travelModuleProject(callback: IterProjectCallback) {
 	await callback(projectInfo.relativePath, projectInfo.path);
 }
 
-export async function travelUserSelectProjects(
+async function travelUserSelectProjects(
 	callback: IterProjectCallback,
 ): Promise<void> {
 	const projectInfo = getProjectInfo();
+
 	if (projectInfo.type === "module") {
 		await travelModuleProject(callback);
 	} else if (projectInfo.type === "integration") {
@@ -47,14 +49,14 @@ export async function travelUserSelectProjects(
 	}
 }
 
-export async function travelAllProjects(
-	callback: IterProjectCallback,
-): Promise<void> {
+async function travelAllProjects(callback: IterProjectCallback): Promise<void> {
 	const projectInfo = getProjectInfo();
+
 	if (projectInfo.type === "module") {
 		await travelModuleProject(callback);
 	} else if (projectInfo.type === "integration") {
 		const projectNames = await readdirAsync(resolveBase("packages"));
+
 		for (const projectName of projectNames) {
 			if (existsSync(resolveBase("packages", projectName, "package.json"))) {
 				// eslint-disable-next-line no-await-in-loop
@@ -63,3 +65,5 @@ export async function travelAllProjects(
 		}
 	}
 }
+
+export { travelUserSelectProjects, travelAllProjects };

@@ -1,13 +1,10 @@
 type A = number;
 const a = 1;
-
-export interface AA {
+interface AA {
 	a: A;
 }
-
-export type CC = AA;
-
-export const aa: CC = { a: 1 };
-
-export { a };
-export type { A };
+type CC = AA;
+const aa: CC = {
+	a: 1,
+};
+export { a, A, AA, CC, aa };

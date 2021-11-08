@@ -5,10 +5,9 @@ import { glob, readFileAsync } from "./fs";
 import { join } from "./path";
 import { travelUserSelectProjects } from "./project";
 import { SimpleTask } from "./simple-task";
-
 type ScanFN = (ast: ParseResult | null, file: string) => void;
 
-export async function scanFile(file: string, scanFn: ScanFN): Promise<void> {
+async function scanFile(file: string, scanFn: ScanFN): Promise<void> {
 	const fileContent = (await readFileAsync(file)).toString();
 	const ast = parse(fileContent, {
 		presets: [
@@ -21,13 +20,13 @@ export async function scanFile(file: string, scanFn: ScanFN): Promise<void> {
 	scanFn(ast, file);
 }
 
-export async function scan(taskName: string, scanFn: ScanFN) {
+async function scan(taskName: string, scanFn: ScanFN) {
 	const projectOra = ora(taskName);
 	projectOra.spinner = "dots";
 	await travelUserSelectProjects(async (name, projectPath) => {
 		projectOra.text = `scan[${chalk.green(name)}]`;
-		projectOra.start();
-		// 认为文件路径是 项目路径/src
+		projectOra.start(); // 认为文件路径是 项目路径/src
+
 		const rootDir = join(projectPath, "src");
 		const files = await glob(rootDir + "/**/*.@(ts|js|tsx|jsx)", {});
 		const task = new SimpleTask(3);
@@ -36,3 +35,5 @@ export async function scan(taskName: string, scanFn: ScanFN) {
 		projectOra.succeed(chalk.green(`scan[${name}]success`));
 	});
 }
+
+export { scanFile, scan };

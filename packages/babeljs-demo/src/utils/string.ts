@@ -1,4 +1,4 @@
-export class StringFactory {
+class StringFactory {
 	private base: string;
 
 	constructor(base?: string) {
@@ -23,7 +23,7 @@ export class StringFactory {
 	}
 }
 
-export const formatString = (format: string, ...args: string[]) => {
+const formatString = (format: string, ...args: string[]) => {
 	let argIndex = 0;
 	return format.replace(/%(\d*)s/g, (_, match) => {
 		const padNum = +match;
@@ -34,3 +34,5 @@ export const formatString = (format: string, ...args: string[]) => {
 		return ret;
 	});
 };
+
+export { StringFactory, formatString };

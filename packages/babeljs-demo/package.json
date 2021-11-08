@@ -13,7 +13,8 @@
     "commit": "npm run cz",
     "build": "babel src -d ./dist",
     "test": "ts-jest",
-    "test:scan-chinese": "tsc && node ./dist/scan-chinese/fist.test.js"
+    "test:scan-chinese": "tsc && node ./dist/scan-chinese/bin.js",
+    "test:export-aggregate": "tsc && node ./dist/export-aggregate/bin.js"
   },
   "repository": {
     "type": "git",

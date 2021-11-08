@@ -1,0 +1,3 @@
+import { exportAggregate } from ".";
+
+exportAggregate();

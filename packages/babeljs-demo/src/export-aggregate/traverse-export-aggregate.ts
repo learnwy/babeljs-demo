@@ -38,6 +38,8 @@ function pickDeclareName(declarationNode: t.Declaration): string[] {
 	throw error;
 }
 
+// 有一个问题, 经过转化后注释的位置对不上了
+// 是否可以只增加最后一条
 function traverseExportAggregate(ast: ParseResult | null, file: string) {
 	if (!ast) {
 		throw new Error("not parse ok");

@@ -30,7 +30,13 @@ async function scan(taskName: string, scanFn: ScanFN) {
 		const rootDir = join(projectPath, "src");
 		const files = await glob(rootDir + "/**/*.@(ts|js|tsx|jsx)", {});
 		const task = new SimpleTask(3);
-		task.addAll(files.map((file) => () => scanFile(file, scanFn)));
+		task.addAll(
+			files.map((file) => () => {
+				return file.endsWith(".d.ts")
+					? Promise.resolve()
+					: scanFile(file, scanFn);
+			}),
+		);
 		await task.run();
 		projectOra.succeed(chalk.green(`scan[${name}]success`));
 	});

@@ -10,20 +10,20 @@ You'll first need to install [ESLint](https://eslint.org/):
 npm i eslint --save-dev
 ```
 
-Next, install `eslint-plugin-eslint-plugin`:
+Next, install `@learnwy/eslint-plugin`:
 
 ```sh
-npm install eslint-plugin-eslint-plugin --save-dev
+npm install @learnwy/eslint-plugin --save-dev
 ```
 
 ## Usage
 
-Add `eslint-plugin` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
+Add `@learnwy/eslint-plugin` to the plugins section of your `.eslintrc` configuration file. You can only use the `@learnwy`:
 
 ```json
 {
     "plugins": [
-        "eslint-plugin"
+        "@learnwy/eslint-plugin"
     ]
 }
 ```
@@ -34,7 +34,7 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
     "rules": {
-        "eslint-plugin/rule-name": 2
+        "@learnwy/import-no-index": 2
     }
 }
 ```

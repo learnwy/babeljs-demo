@@ -9,11 +9,20 @@ module.exports = {
 		ecmaVersion: 12,
 		sourceType: "module",
 	},
-	plugins: ["@typescript-eslint"],
+	plugins: ["@typescript-eslint", "@learnwy"],
 	rules: {
 		indent: ["error", "tab"],
 		"linebreak-style": ["error", "unix"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"],
+		"@learnwy/import-no-index": [
+			"error",
+			[
+				{
+					// eslint-disable-next-line no-undef
+					dir: __dirname + "/packages/eslint-plugin-learnwy/tests/foo",
+				},
+			],
+		],
 	},
 };

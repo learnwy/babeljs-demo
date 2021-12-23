@@ -1,0 +1,42 @@
+{
+  "name": "@learnwy/babeljs-demo",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "bin": {
+    "scan": "./bin/scan.js"
+  },
+  "scripts": {
+    "check": "npm run check:type",
+    "check:type": "tsc --noEmit",
+    "commitlint": "commitlint",
+    "commit": "npm run cz",
+    "build": "babel src -d ./dist",
+    "syn": "ts-node ./src/syn.test.ts",
+    "enum-name": "ts-node ./src/enum-name/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/learnwy/babeljs-demo.git"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/learnwy/babeljs-demo/issues"
+  },
+  "homepage": "https://github.com/learnwy/babeljs-demo#readme",
+  "dependencies": {
+    "change-case": "^4.1.2",
+    "tslib": "^2.3.1",
+    "typescript": "^4.4.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "@babel/preset-typescript": "^7.15.0",
+    "@learnwy/eslint-plugin": "^0.1.3",
+    "@types/ramda": "^0.27.49",
+    "ts-node": "^10.3.0"
+  }
+}
